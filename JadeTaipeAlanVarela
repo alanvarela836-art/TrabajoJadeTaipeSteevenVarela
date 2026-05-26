@@ -1,0 +1,57 @@
+package com.bingo;
+import java.util.Random;
+import java.util.Scanner;
+public class Main {
+
+    public static void main(String[] args) {
+
+        String[][] carton = new String[5][5];
+
+        Random random = new Random();
+        Scanner scanner = new Scanner(System.in);
+
+        for (int fila = 0; fila < 5; fila++) {
+
+            for (int columna = 0; columna < 5; columna++) {
+
+                carton[fila][columna] =
+                        String.valueOf(random.nextInt(25) + 1);
+            }
+        }
+
+        System.out.println("\n--- PAPEL DE BINGO PROGRAMACION 2 ---\n");
+
+        for (int fila = 0; fila < 5; fila++) {
+
+            for (int columna = 0; columna < 5; columna++) {
+
+                System.out.print(carton[fila][columna] + "\t");
+            }
+
+            System.out.println();
+        }
+
+        System.out.print("\nIngrese fila (0-4): ");
+        int filaEliminar = scanner.nextInt();
+
+        System.out.print("Ingrese columna (0-4): ");
+        int columnaEliminar = scanner.nextInt();
+
+        carton[filaEliminar][columnaEliminar] = "X";
+
+        System.out.println("\n--- PAPEL ACTUALIZADO ---\n");
+
+        for (int fila = 0; fila < 5; fila++) {
+
+            for (int columna = 0; columna < 5; columna++) {
+
+                System.out.print(carton[fila][columna] + "\t");
+            }
+
+            System.out.println();
+
+        }
+
+        scanner.close();
+    }
+}
