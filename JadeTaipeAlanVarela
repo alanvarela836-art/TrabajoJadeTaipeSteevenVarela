@@ -1,55 +1,88 @@
 package com.bingo;
+
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
 
         String[][] carton = new String[5][5];
-
         Random random = new Random();
         Scanner scanner = new Scanner(System.in);
 
         for (int fila = 0; fila < 5; fila++) {
-
             for (int columna = 0; columna < 5; columna++) {
+                
+                boolean repetido;
+                int numeroAleatorio = 0;
 
-                carton[fila][columna] =
-                        String.valueOf(random.nextInt(25) + 1);
+                do {
+                    repetido = false;
+                    numeroAleatorio = random.nextInt(25) + 1;
+                    String numeroStr = String.valueOf(numeroAleatorio);
+
+                    for (int f = 0; f < 5; f++) {
+                        for (int c = 0; c < 5; c++) {
+                            if (carton[f][c] != null && carton[f][c].equals(numeroStr)) {
+                                repetido = true;
+                                break;
+                            }
+                        }
+                        if (repetido) break;
+                    }
+
+                } while (repetido);
+
+                carton[fila][columna] = String.valueOf(numeroAleatorio);
             }
         }
 
         System.out.println("\n--- PAPEL DE BINGO PROGRAMACION 2 ---\n");
 
         for (int fila = 0; fila < 5; fila++) {
-
             for (int columna = 0; columna < 5; columna++) {
-
                 System.out.print(carton[fila][columna] + "\t");
             }
-
             System.out.println();
         }
 
-        System.out.print("\nIngrese fila (0-4): ");
-        int filaEliminar = scanner.nextInt();
+        int filaEliminar = -1;
+        int columnaEliminar = -1;
+        boolean entradaValida = false;
 
-        System.out.print("Ingrese columna (0-4): ");
-        int columnaEliminar = scanner.nextInt();
+        while (!entradaValida) {
+            try {
+                System.out.print("\nIngrese fila (0-4): ");
+                filaEliminar = scanner.nextInt();
+
+                System.out.print("Ingrese columna (0-4): ");
+                columnaEliminar = scanner.nextInt();
+
+                if (filaEliminar < 0 || filaEliminar > 4 || columnaEliminar < 0 || columnaEliminar > 4) {
+                    throw new IndexOutOfBoundsException("Las coordenadas deben estar entre 0 y 4.");
+                }
+
+                entradaValida = true;
+
+            } catch (InputMismatchException e) {
+                System.out.println("¡Error! Debe ingresar un número entero válido. Intente de nuevo.");
+                scanner.next();
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("¡Error! " + e.getMessage() + " Intente de nuevo.");
+            }
+        }
 
         carton[filaEliminar][columnaEliminar] = "X";
 
         System.out.println("\n--- PAPEL ACTUALIZADO ---\n");
 
         for (int fila = 0; fila < 5; fila++) {
-
             for (int columna = 0; columna < 5; columna++) {
-
                 System.out.print(carton[fila][columna] + "\t");
             }
-
             System.out.println();
-
         }
 
         scanner.close();
