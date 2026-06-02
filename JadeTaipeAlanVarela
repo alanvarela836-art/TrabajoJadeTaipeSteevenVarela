@@ -1,48 +1,43 @@
-package com.bingo;
 
-import java.util.InputMismatchException;
+package bingo;
+
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
-
         String[][] carton = new String[5][5];
         Random random = new Random();
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        for (int fila = 0; fila < 5; fila++) {
-            for (int columna = 0; columna < 5; columna++) {
-                
+        for( int fila = 0; fila < 5; fila++) {
+            for( int columna = 0; columna < 5; columna ++){
                 boolean repetido;
-                int numeroAleatorio = 0;
+                int numAleatorio;
 
-                do {
+                do{
                     repetido = false;
-                    numeroAleatorio = random.nextInt(25) + 1;
-                    String numeroStr = String.valueOf(numeroAleatorio);
+                    numAleatorio = random.nextInt(25) + 1;
+                    String numString = String.valueOf(numAleatorio);
 
-                    for (int f = 0; f < 5; f++) {
-                        for (int c = 0; c < 5; c++) {
-                            if (carton[f][c] != null && carton[f][c].equals(numeroStr)) {
+                    for (int f = 0; f< 5; f++){
+                        for (int c  = 0; c <5; c++){
+                            if(carton[f][c] != null && carton[f][c].equals(numString)){
                                 repetido = true;
                                 break;
                             }
                         }
-                        if (repetido) break;
+                        if(repetido) break;
                     }
+                } while(repetido);
 
-                } while (repetido);
-
-                carton[fila][columna] = String.valueOf(numeroAleatorio);
+                carton[fila][columna] = String.valueOf(numAleatorio);
             }
         }
 
-        System.out.println("\n--- PAPEL DE BINGO PROGRAMACION 2 ---\n");
-
-        for (int fila = 0; fila < 5; fila++) {
-            for (int columna = 0; columna < 5; columna++) {
+        System.out.println("Cartón de Bingo:");
+        for(int fila = 0; fila < 5; fila++){
+            for(int columna = 0; columna < 5; columna++){
                 System.out.print(carton[fila][columna] + "\t");
             }
             System.out.println();
@@ -52,39 +47,29 @@ public class Main {
         int columnaEliminar = -1;
         boolean entradaValida = false;
 
-        while (!entradaValida) {
-            try {
-                System.out.print("\nIngrese fila (0-4): ");
-                filaEliminar = scanner.nextInt();
+        while(!entradaValida){
+            System.out.print("Ingrese la fila (0-4) del número a eliminar: ");
+            filaEliminar = sc.nextInt();
+            System.out.print("Ingrese la columna (0-4) del número a eliminar: ");
+            columnaEliminar = sc.nextInt();
 
-                System.out.print("Ingrese columna (0-4): ");
-                columnaEliminar = scanner.nextInt();
-
-                if (filaEliminar < 0 || filaEliminar > 4 || columnaEliminar < 0 || columnaEliminar > 4) {
-                    throw new IndexOutOfBoundsException("Las coordenadas deben estar entre 0 y 4.");
-                }
-
+            if(filaEliminar >= 0 && filaEliminar < 5 && columnaEliminar >= 0 && columnaEliminar < 5){
                 entradaValida = true;
-
-            } catch (InputMismatchException e) {
-                System.out.println("¡Error! Debe ingresar un número entero válido. Intente de nuevo.");
-                scanner.next();
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("¡Error! " + e.getMessage() + " Intente de nuevo.");
-            }
-        }
-
+            } else {
+                System.out.println("Entrada inválida. Por favor, ingrese valores entre 0 y 4.");}
+                
         carton[filaEliminar][columnaEliminar] = "X";
 
-        System.out.println("\n--- PAPEL ACTUALIZADO ---\n");
-
-        for (int fila = 0; fila < 5; fila++) {
-            for (int columna = 0; columna < 5; columna++) {
+        System.out.println("Cartón de Bingo actualizado:");
+        for(int fila = 0; fila < 5; fila++){
+            for(int columna = 0; columna < 5; columna++){
                 System.out.print(carton[fila][columna] + "\t");
             }
             System.out.println();
         }
 
-        scanner.close();
+
+
     }
+}
 }
